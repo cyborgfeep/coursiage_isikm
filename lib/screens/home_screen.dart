@@ -1,7 +1,9 @@
 import 'package:coursiage_isikm/models/option.dart';
+import 'package:coursiage_isikm/models/transaction.dart';
 import 'package:coursiage_isikm/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +15,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    initJiffy();
+  }
+
+  initJiffy() async {
+    await Jiffy.setLocale('fr_fr');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       cardWidget(),
                       GridView.builder(
+                        physics: ClampingScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                         ),
@@ -113,6 +126,66 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: Option.optionList.length,
                         itemBuilder: (context, index) {
                           return optionWidget(o: Option.optionList[index]);
+                        },
+                      ),
+                      Divider(thickness: 5, color: Colors.grey.shade300),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: Transaction.transactionList.length,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, i) {
+                          Transaction t = Transaction.transactionList[i];
+                          bool isDebit =
+                              t.transactionType == TType.depot ||
+                                  t.transactionType == TType.reception
+                              ? true
+                              : false;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 4,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${t.transactionType == TType.envoi
+                                          ? "À "
+                                          : t.transactionType == TType.reception
+                                          ? "De "
+                                          : ""}${t.titre}",
+                                      style: GoogleFonts.dmSans(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${isDebit ? "" : "-"}${t.montant}F",
+                                      style: GoogleFonts.dmSans(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  Jiffy.parse(
+                                    t.dateTime.toString(),
+                                  ).format(pattern: "dd MMMM yyyy à HH:mm"),
+                                  style: GoogleFonts.dmSans(
+                                    color: Colors.grey,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                     ],

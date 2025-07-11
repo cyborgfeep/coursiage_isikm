@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
   pretty_qr_code: ^3.4.0
+  jiffy: ^6.4.3
 
 
 dev_dependencies:
