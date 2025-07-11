@@ -1,5 +1,6 @@
 import 'package:coursiage_isikm/models/option.dart';
 import 'package:coursiage_isikm/models/transaction.dart';
+import 'package:coursiage_isikm/screens/scan_screen.dart';
 import 'package:coursiage_isikm/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,14 +55,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        isVisible ? "10.000F" : "••••••••",
-                        style: GoogleFonts.aBeeZee(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      isVisible
+                          ? RichText(
+                              text: TextSpan(
+                                text: "10.000",
+                                style: GoogleFonts.aBeeZee(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "F",
+                                    style: GoogleFonts.aBeeZee(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text(
+                              "••••••••",
+                              style: GoogleFonts.aBeeZee(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                       SizedBox(width: 8),
                       Icon(
                         isVisible ? Icons.visibility_off : Icons.visibility,
@@ -100,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 2000,
+              height: 750,
               child: Stack(
                 children: [
                   Container(color: primaryColor),
@@ -115,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       cardWidget(),
                       GridView.builder(
@@ -188,6 +211,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: primaryColor.withValues(alpha: .3),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.search, color: primaryColor),
+                                Text(
+                                  "Rechercher",
+                                  style: GoogleFonts.dmSans(
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ],
@@ -217,62 +268,74 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget cardWidget() {
-    return Container(
-      margin: EdgeInsets.only(top: 20, left: 40, right: 40),
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(
-          image: AssetImage("assets/images/motif.png"),
-          colorFilter: ColorFilter.mode(
-            Colors.black.withValues(alpha: .2),
-            BlendMode.srcIn,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ScanScreen();
+            },
           ),
-          fit: BoxFit.cover,
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 20, left: 40, right: 40),
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(15),
+          image: DecorationImage(
+            image: AssetImage("assets/images/motif.png"),
+            colorFilter: ColorFilter.mode(
+              Colors.black.withValues(alpha: .2),
+              BlendMode.srcIn,
+            ),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Image.asset("assets/images/wave_logo.png", width: 50),
-          ),
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              height: 175,
-              width: 170,
-              child: Column(
-                children: [
-                  SizedBox(height: 5),
-                  Container(
-                    height: 150,
-                    padding: EdgeInsets.all(8),
-                    child: PrettyQrView.data(data: 'google.com'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.camera_alt_rounded, size: 16),
-                      SizedBox(width: 5),
-                      Text(
-                        "Scanner",
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Image.asset("assets/images/wave_logo.png", width: 50),
+            ),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                height: 175,
+                width: 170,
+                child: Column(
+                  children: [
+                    SizedBox(height: 5),
+                    Container(
+                      height: 150,
+                      padding: EdgeInsets.all(8),
+                      child: PrettyQrView.data(data: 'google.com'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.camera_alt_rounded, size: 16),
+                        SizedBox(width: 5),
+                        Text(
+                          "Scanner",
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
