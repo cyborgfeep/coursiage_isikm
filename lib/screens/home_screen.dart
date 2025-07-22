@@ -2,6 +2,7 @@ import 'package:coursiage_isikm/models/option.dart';
 import 'package:coursiage_isikm/models/transaction.dart';
 import 'package:coursiage_isikm/screens/scan_screen.dart';
 import 'package:coursiage_isikm/utils/constants.dart';
+import 'package:coursiage_isikm/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
@@ -139,7 +140,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      cardWidget(),
+                      CardWidget(
+                        height: 200,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ScanScreen();
+                              },
+                            ),
+                          );
+                        },
+                      ),
                       GridView.builder(
                         physics: ClampingScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -264,79 +277,6 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(height: 5),
         Text(o.title, style: GoogleFonts.dmSans(fontWeight: FontWeight.w500)),
       ],
-    );
-  }
-
-  Widget cardWidget() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return ScanScreen();
-            },
-          ),
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.only(top: 20, left: 40, right: 40),
-        height: 200,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(
-            image: AssetImage("assets/images/motif.png"),
-            colorFilter: ColorFilter.mode(
-              Colors.black.withValues(alpha: .2),
-              BlendMode.srcIn,
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Image.asset("assets/images/wave_logo.png", width: 50),
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                height: 175,
-                width: 170,
-                child: Column(
-                  children: [
-                    SizedBox(height: 5),
-                    Container(
-                      height: 150,
-                      padding: EdgeInsets.all(8),
-                      child: PrettyQrView.data(data: 'google.com'),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.camera_alt_rounded, size: 16),
-                        SizedBox(width: 5),
-                        Text(
-                          "Scanner",
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
