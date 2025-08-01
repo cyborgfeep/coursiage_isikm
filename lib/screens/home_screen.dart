@@ -1,6 +1,7 @@
 import 'package:coursiage_isikm/models/option.dart';
 import 'package:coursiage_isikm/models/transaction.dart';
 import 'package:coursiage_isikm/screens/scan_screen.dart';
+import 'package:coursiage_isikm/screens/transaction_screen.dart';
 import 'package:coursiage_isikm/utils/constants.dart';
 import 'package:coursiage_isikm/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
@@ -264,19 +265,47 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget optionWidget({required Option o}) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: o.color.withValues(alpha: .3),
-            borderRadius: BorderRadius.circular(45),
+    return GestureDetector(
+      onTap: () {
+        switch (o.title) {
+          case "Transfert":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return TransactionScreen(isCreditScreen: false);
+                },
+              ),
+            );
+            break;
+          case "Crédit":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return TransactionScreen(isCreditScreen: true);
+                },
+              ),
+            );
+            break;
+          default:
+            break;
+        }
+      },
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: o.color.withValues(alpha: .3),
+              borderRadius: BorderRadius.circular(45),
+            ),
+            padding: EdgeInsets.all(8),
+            child: Icon(o.icon, size: 45, color: o.color),
           ),
-          padding: EdgeInsets.all(8),
-          child: Icon(o.icon, size: 45, color: o.color),
-        ),
-        SizedBox(height: 5),
-        Text(o.title, style: GoogleFonts.dmSans(fontWeight: FontWeight.w500)),
-      ],
+          SizedBox(height: 5),
+          Text(o.title, style: GoogleFonts.dmSans(fontWeight: FontWeight.w500)),
+        ],
+      ),
     );
   }
 }
