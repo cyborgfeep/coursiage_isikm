@@ -1,9 +1,6 @@
-import 'package:camera/camera.dart';
-import 'package:coursiage_isikm/main.dart';
 import 'package:coursiage_isikm/widgets/camera_widget.dart';
 import 'package:coursiage_isikm/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class ScanScreen extends StatefulWidget {

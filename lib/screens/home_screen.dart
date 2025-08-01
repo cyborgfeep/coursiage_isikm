@@ -7,7 +7,6 @@ import 'package:coursiage_isikm/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
