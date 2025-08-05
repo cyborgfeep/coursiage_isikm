@@ -4,6 +4,7 @@ import 'package:coursiage_isikm/screens/scan_screen.dart';
 import 'package:coursiage_isikm/screens/transaction_screen.dart';
 import 'package:coursiage_isikm/utils/constants.dart';
 import 'package:coursiage_isikm/widgets/card_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
@@ -39,7 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: IconButton(
               icon: Icon(Icons.settings, color: Colors.white),
               onPressed: () {
-                print("Go to settings");
+                if (kDebugMode) {
+                  print("Go to settings");
+                }
               },
             ),
             floating: true,
@@ -141,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CardWidget(
-                        height: 200,
+                        height: 180,
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -299,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(45),
             ),
             padding: EdgeInsets.all(8),
-            child: Icon(o.icon, size: 45, color: o.color),
+            child: Icon(o.icon, size: 35, color: o.color),
           ),
           SizedBox(height: 5),
           Text(o.title, style: GoogleFonts.dmSans(fontWeight: FontWeight.w500)),

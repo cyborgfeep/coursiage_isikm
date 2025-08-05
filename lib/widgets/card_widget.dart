@@ -54,13 +54,15 @@ class _CardWidgetState extends State<CardWidget> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  height: 175,
-                  width: 170,
+                  height: widget.height != null ? widget.height! - 25 : 175,
+                  width: widget.height != null ? widget.height! - 35 : 170,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 150,
+                        height: widget.height != null
+                            ? widget.height! - 50
+                            : 150,
                         padding: EdgeInsets.all(8),
                         child: PrettyQrView.data(data: 'google.com'),
                       ),
